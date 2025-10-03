@@ -87,4 +87,45 @@ public:
 //      subarray, when >= k
 //          move left until < k
 
-//
+// 567
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        if (s2.size() < s1.size())
+            return false;
+
+        unordered_map<char, int> freq1;
+        unordered_map<char, int> freq2;
+        for (int i = 0; i < s1.size(); i++) {
+            freq1[s1[i]]++;
+            freq2[s2[i]]++;
+        }
+
+        if (freq1 == freq2)
+            return true;
+
+        int left = 0;
+        for (int right = s1.size(); right < s2.size(); right++) {
+            freq2[s2[right]]++;
+            freq2[s2[left]]--;
+
+            if (freq2[s2[left]] == 0)
+                freq2.erase(s2[left]);
+
+            left++;
+
+            if (freq2 == freq1)
+                return true;
+        }
+        return false;
+    }
+};
+
+// permutation -> subarray contain full charachter of s1 -> sliding window
+// Window have:
+//      - Size: = s1 -> right - left + 1 = s1.size()
+//      - Contain exactly char of s1 -> count freq of each char in s1, save
+//      on map
+//      - For in s2, change freq2, if length = s1 return true, if not ->
+//      check if char not exist -> left++, continue. If exist -> increase
+//      freq2, while freq2 > freq1 -> --freq2 and
