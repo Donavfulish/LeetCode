@@ -61,3 +61,30 @@ public:
         return maxLength;
     }
 };
+
+//209
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int minLength = nums.size() + 1, sum = 0, left = 0;
+        for (int right = 0; right < nums.size(); right++) {
+            sum += nums[right];
+
+            while (sum >= target) {
+                minLength = min(minLength, right - left + 1);
+                sum -= nums[left];
+                left++;
+            }
+        }
+        return ((minLength == nums.size() + 1) ? 0 : minLength);
+    }
+};
+
+// subarray -> sliding window
+// window have:
+//      - Length: right - left + 1
+//      - Condition: sum >= target -> use var sum to save sum of current
+//      subarray, when >= k
+//          move left until < k
+
+//
