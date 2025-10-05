@@ -77,7 +77,7 @@ public:
             }
         }
         return ((minLength == nums.size() + 1) ? 0 : minLength);
-    }
+    } 
 };
 
 // subarray -> sliding window
